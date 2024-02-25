@@ -1,0 +1,24 @@
+
+.actions{
+
+}
+
+.feed{
+
+}
+
+.Game{
+    display:flex;
+}
+
+.maincontent{
+    display:inline-block;
+    width:900px;
+    padding: 20px;
+}
+
+.statuspanel{
+    display:inline-block;
+    width:300px;
+    padding: 20px;
+}
