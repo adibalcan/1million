@@ -1,20 +1,25 @@
-import { Main, main } from "./main";
-import { instanceToPlain, serialize } from 'class-transformer';
+import { Main } from "./main";
 import { GoOut } from "./actions";
 import { getRandomInt, getRandomIntIterval } from "./util";
-import { Asset } from "./assets";
+import { Asset, Car, Credit, House, Job, LotteryTicket, objectToAsset } from "./assets";
 import { Constants } from "./constants";
 
 
 export const day_time = 500; // how mouch lasts a day (in ms)
 export let day_interval:any = null;
 export let game_status:boolean = true;
+export let main:Main; // = createMainInstance(); // This works as a Singletone
+export let save_interval:any;
 
+createMainInstance();
 
 export function start() {
     if (!day_interval){
         console.log("game started");
         day_interval = setInterval(day, day_time);
+    } 
+    if (!save_interval){
+        save_interval = setInterval(save, 10000);
     } 
 }
 
@@ -70,7 +75,6 @@ function yearly_check(){
     inflation();
 }
 
-
 function pay_rent(){
     // if you don't have a house you pay the rent
     if(main.how_many('house') == 0){
@@ -97,3 +101,57 @@ function inflation(){
     main.inflation_factor *= (1+inflation/100); 
     main.log(`This year inflation was ${inflation}%. All priceas are now higher`);
 }
+
+function save(){
+    if(game_status){
+        // save assets
+        localStorage.setItem(Constants.STORAGE_PREFIX + "_assets", JSON.stringify(main.assets));
+
+        // save main context
+        localStorage.setItem(Constants.STORAGE_PREFIX + "_main", JSON.stringify(main));
+        console.log("save");
+    }    
+}
+
+function load():boolean{
+    let loaded = false;
+    let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_main");
+    if(data){
+        let object = JSON.parse(data);
+        object.assets = [];
+        object.log_history = [];
+        // main = Object.create(Main, object);
+        // update the global main object
+        main = Object.assign(new Main(), object);
+        loaded = true;
+        console.log('loaded main context');
+        loadAssets();
+    }
+    return loaded;
+}
+
+function loadAssets(){
+    let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_assets");
+    if(data){
+        let assetData = JSON.parse(data);
+        assetData.map((a:any) => {
+            let newAsset = objectToAsset(a);
+            if(newAsset){
+                let asset = Object.assign(newAsset, a);
+                main.assets.push(asset);
+            }
+        });
+        console.log('loaded assets');
+    }
+}
+
+function createMainInstance(){
+    // create main instance or load it form localstorage using load method
+    let loaded = load();
+    let m:Main;
+    if(!loaded){
+        m = new Main();
+        m.log(`You are ${Constants.NAME}, a teenager of 22 years. You have $${Constants.CASH_START} and you need to survive in the economic jungle.`)
+    }
+}
+

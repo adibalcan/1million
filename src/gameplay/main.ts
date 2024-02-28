@@ -1,8 +1,6 @@
 import { Action } from "./actions";
 import { Asset, Car, Credit, House, Job, LotteryTicket } from "./assets";
-import { instanceToPlain, plainToInstance, serialize } from 'class-transformer';
 import { Constants } from "./constants";
-import { game_status } from "./flow";
 
 export type LogItem = {
     message:string;
@@ -83,83 +81,6 @@ class Main{
     }
 }
 
-// This Works as a Singletone
-let main:Main;
 
 
-function save(){
-    if(game_status){
-        // save assets
-        localStorage.setItem(Constants.STORAGE_PREFIX + "_assets", JSON.stringify(main.assets));
-
-        // save main context
-        localStorage.setItem(Constants.STORAGE_PREFIX + "_main", JSON.stringify(main));
-        console.log("save");
-    }    
-}
-
-
-function load(){
-    let loaded = false;
-    let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_main");
-    if(data){
-        let object = JSON.parse(data);
-        object.assets = [];
-        object.log_history = [];
-        // main = Object.create(Main, object);
-        main = Object.assign(new Main(), object);
-        loaded = true;
-        console.log('loaded main context');
-    }
-
-    loadAssets();
-    return loaded;
-}
-
-function loadAssets(){
-    let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_assets");
-    if(data){
-        let assetData = JSON.parse(data);
-        assetData.map((a:any) => {
-            let newAsset = null;
-            switch(a.type){
-                case 'job':
-                    newAsset = new Job();
-                    break;
-                case 'car':
-                    newAsset = new Car();
-                    break;
-                case 'house':
-                    newAsset = new House();
-                    break;
-                case 'credit':
-                    newAsset = new Credit();
-                    break;
-                case 'lottery':
-                    newAsset = new LotteryTicket();
-                    break;
-                default:
-                    console.error('Asset not supported');
-            }
-
-            if(newAsset){
-                let asset = Object.assign(newAsset, a);
-                main.assets.push(asset);
-            }
-        });
-        console.log('loaded assets');
-    }
-
-}
-
-
-// create main instance or load it form localstorage using load method
-
-if(!load()){
-    main = new Main();
-    main.log("You are John, a teenager of 22 years. You have $1000 and you need to survive in the economic jungle.")
-}
-
-setInterval(save, 10000);
-
-export {main, Main};
+export {Main};

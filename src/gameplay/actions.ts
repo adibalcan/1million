@@ -1,4 +1,4 @@
-import {main} from "./main";
+import {main} from "./flow";
 import "./assets";
 import { Job, Car, House, Asset, LotteryTicket } from "./assets";
 
@@ -8,7 +8,6 @@ export interface Action{
     active():boolean
     action():void
 }
-
 
 class BuyCar implements Action{
     name = "Buy a car";

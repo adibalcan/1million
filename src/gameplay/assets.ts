@@ -1,13 +1,51 @@
 import { EnumType } from "typescript";
-import { Main, main } from "./main";
-import { getRandomInt, getRandomIntIterval} from "./util";
 import { type } from "os";
-import { stop } from "./flow";
+import { getRandomInt, getRandomIntIterval} from "./util";
+import { stop, main } from "./flow";
 import { Constants } from "./constants";
 
 export type AssetAction = {
     name:String,
     action:any
+}
+
+export function asset_stats(){
+    let stats:any = {}
+
+    for(let i=0; i < main.assets.length; i++){
+        let asset = main.assets[i]
+        
+        if (asset.type in stats){
+            stats[asset.type] += 1;
+        }else{
+            stats[asset.type] = 1;
+        }
+    }
+    return stats;
+}
+
+export function objectToAsset(a:any):Asset|null{
+    let newAsset:Asset|null = null;
+    switch(a.type){
+        case 'job':
+            newAsset = new Job();
+            break;
+        case 'car':
+            newAsset = new Car();
+            break;
+        case 'house':
+            newAsset = new House();
+            break;
+        case 'credit':
+            newAsset = new Credit();
+            break;
+        case 'lottery':
+            newAsset = new LotteryTicket();
+            break;
+        default:
+            console.error('Asset not supported');
+    }
+    return newAsset
 }
 
 interface Asset {
@@ -200,20 +238,7 @@ class LotteryTicket extends BaseAsset{
 }
 
 
-export function asset_stats(){
-    let stats:any = {}
 
-    for(let i=0; i < main.assets.length; i++){
-        let asset = main.assets[i]
-        
-        if (asset.type in stats){
-            stats[asset.type] += 1;
-        }else{
-            stats[asset.type] = 1;
-        }
-    }
-    return stats;
-}
 
 export { Job, Car, House, Credit, LotteryTicket };
 export type { Asset };

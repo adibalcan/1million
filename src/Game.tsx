@@ -1,7 +1,7 @@
 import React, { useReducer, useState } from 'react';
-import {LogItem, main, Main} from './gameplay/main';
+import { main, start } from './gameplay/flow';
+import {LogItem, Main} from './gameplay/main';
 import actions, {Action} from './gameplay/actions';
-import { start } from "./gameplay/flow";
 import { Asset, AssetAction } from './gameplay/assets';
 import './Game.css';
 import { convertDaysToAge } from './gameplay/util';

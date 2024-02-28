@@ -1,5 +1,5 @@
 {
-  "name": "1 million",
+  "name": "1million",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -10,7 +10,6 @@
     "@types/node": "^16.18.66",
     "@types/react": "^18.2.41",
     "@types/react-dom": "^18.2.17",
-    "class-transformer": "^0.5.1",
     "es6-shim": "^0.35.8",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
