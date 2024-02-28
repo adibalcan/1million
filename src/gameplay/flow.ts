@@ -4,14 +4,13 @@ import { getRandomInt, getRandomIntIterval } from "./util";
 import { Asset, Car, Credit, House, Job, LotteryTicket, objectToAsset } from "./assets";
 import { Constants } from "./constants";
 
+export let main:Main; // This works as a Singletone
+createMainInstance();
 
 export const day_time = 500; // how mouch lasts a day (in ms)
 export let day_interval:any = null;
-export let game_status:boolean = true;
-export let main:Main; // = createMainInstance(); // This works as a Singletone
 export let save_interval:any;
-
-createMainInstance();
+export let game_status:boolean = true;
 
 export function start() {
     if (!day_interval){
@@ -148,10 +147,9 @@ function loadAssets(){
 function createMainInstance(){
     // create main instance or load it form localstorage using load method
     let loaded = load();
-    let m:Main;
     if(!loaded){
-        m = new Main();
-        m.log(`You are ${Constants.NAME}, a teenager of 22 years. You have $${Constants.CASH_START} and you need to survive in the economic jungle.`)
+        main = new Main();
+        main.log(`You are ${Constants.NAME}, a teenager of 22 years. You have $${Constants.CASH_START} and you need to survive in the economic jungle.`)
     }
 }
 
