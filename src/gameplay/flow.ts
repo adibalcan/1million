@@ -130,6 +130,7 @@ function load():boolean{
 }
 
 function loadAssets(){
+    // TODO: add main instance as parameter
     let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_assets");
     if(data){
         let assetData = JSON.parse(data);
