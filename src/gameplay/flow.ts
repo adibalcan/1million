@@ -4,8 +4,9 @@ import { getRandomInt, getRandomIntIterval } from "./util";
 import { Asset, Car, Credit, House, Job, LotteryTicket, objectToAsset } from "./assets";
 import { Constants } from "./constants";
 
-export let main:Main; // This works as a Singletone
-createMainInstance();
+export let main:Main = createMainInstance(); // This works as a Singletone
+loadAssets();
+
 
 export const day_time = 500; // how mouch lasts a day (in ms)
 export let day_interval:any = null;
@@ -112,8 +113,10 @@ function save(){
     }    
 }
 
-function load():boolean{
-    let loaded = false;
+function loadMain():Main|false{
+    // the loading is done in 2 steps:
+    // 1. loading main context in the global varaible
+    // 2. loading assets(they have references to the main clobal variable)
     let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_main");
     if(data){
         let object = JSON.parse(data);
@@ -121,16 +124,17 @@ function load():boolean{
         object.log_history = [];
         // main = Object.create(Main, object);
         // update the global main object
-        main = Object.assign(new Main(), object);
-        loaded = true;
+        let newMain:Main = Object.assign(new Main(), object);
         console.log('loaded main context');
-        loadAssets();
+        return newMain;
+    }else{
+        return false;
     }
-    return loaded;
 }
 
-function loadAssets(){
-    // TODO: add main instance as parameter
+function loadAssets():boolean{
+    // the global main variable should exist at the creation moment of the assets 
+    // because they are using the main properties
     let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_assets");
     if(data){
         let assetData = JSON.parse(data);
@@ -142,15 +146,21 @@ function loadAssets(){
             }
         });
         console.log('loaded assets');
+        return true;
     }
+    return false;
 }
 
-function createMainInstance(){
+function createMainInstance():Main {
     // create main instance or load it form localstorage using load method
-    let loaded = load();
-    if(!loaded){
-        main = new Main();
-        main.log(`You are ${Constants.NAME}, a teenager of 22 years. You have $${Constants.CASH_START} and you need to survive in the economic jungle.`)
+    let m = loadMain();
+    let newMain:Main;
+    if(m){
+        return m;
+    }else{
+        newMain = new Main();
+        newMain.log(`You are ${Constants.NAME}, a teenager of 22 years. You have $${Constants.CASH_START} and you need to survive in the economic jungle.`);
+        return newMain;
     }
 }
 
