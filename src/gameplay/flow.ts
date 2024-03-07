@@ -99,7 +99,7 @@ function pay_food(){
 function inflation(){
     let inflation = getRandomIntIterval(Constants.MIN_INFLATION, Constants.MAX_INFLATION);
     main.inflation_factor *= (1+inflation/100); 
-    main.log(`This year inflation was ${inflation}%. All priceas are now higher`);
+    main.log(`This year inflation was ${inflation}%. All prices are now higher`);
 }
 
 function save(){
