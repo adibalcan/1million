@@ -244,7 +244,7 @@ export class ETFSP500 extends BaseAsset{
     value = 5000 * main.inflation_factor;
 
     yearly(): void {
-        this.value = this.value * (getRandomIntIterval(5,15) / 100);
+        this.value += this.value * (getRandomIntIterval(5,15) / 100);
     }
 }
 
