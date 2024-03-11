@@ -90,6 +90,7 @@ class OrganizeAParty implements Action{
     action(): void {
         let cost = 200 * main.inflation_factor;
         main.pay(cost);
+        main.network += 1;
         main.log(`Let's party`);
     }
 }
@@ -123,6 +124,7 @@ export class GoOut implements Action{
 
     action(): void {
         let cost = 100 * main.inflation_factor;
+        main.network += 1;
         main.pay(cost);
         main.log(`You have new friends.`);
     }

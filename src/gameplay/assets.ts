@@ -193,7 +193,7 @@ export class Credit extends BaseAsset{
     yearly(): void {
         let interest = this.value * (Constants.CREDIT_INTEREST_RATE / 100);
         if(main.cash > interest){
-            main.pay(interest);
+            main.pay(interest, false);
             main.log(`You paid ${interest} as the interest rate for the credit`);
         }else{
             main.log(`You don't have money for interest rate (${interest})`);

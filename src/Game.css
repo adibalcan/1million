@@ -22,3 +22,29 @@
     width:300px;
     padding: 20px;
 }
+
+button{
+    background-color: white;
+    padding:5px;
+    border:1px solid black;
+}
+button:hover{
+    background-color: lightgray;
+}
+
+
+.flex-between{
+    display: flex;
+    justify-content: space-between;
+}
+
+.asset{
+
+    padding: 2px 0;
+}
+
+.asset .name,
+.asset .value,
+.asset .action{
+    margin: 2px;
+}

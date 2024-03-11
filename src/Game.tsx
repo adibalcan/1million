@@ -8,23 +8,26 @@ import { convertDaysToAge } from './gameplay/util';
 
 
 function AssetComponent(props:{asset:Asset}){
-    return (<div>
-        {props.asset.name} { Math.round(props.asset.value)} &nbsp;
+    return (<div className="asset flex-between">
         <span>
-            {props.asset.getActions().map((action:AssetAction, index:number) => (
-                <button key={index} onClick={action.action}>{action.name}</button>
-            ))} 
+            <span className="name">{props.asset.name}</span>
+            <span className="value" title="value">{ Math.round(props.asset.value)}</span> 
         </span>
-        {props.asset.isSellable &&
-            <button onClick={(e) => main.sell_asset(props.asset)}>Sell</button>
-        }
+        <span className="actions">
+            {props.asset.getActions().map((action:AssetAction, index:number) => (
+                <button className="action" key={index} onClick={action.action}>{action.name}</button>
+            ))} 
+            {props.asset.isSellable &&
+                <button className="action" onClick={(e) => main.sell_asset(props.asset)}>Sell</button>
+            }
+        </span>
     </div>)
 }
 
 function Player(props:{main:Main}){
     return (
         <div>
-            <div>
+            <div className="flex-between">
                 <span>{props.main.name}</span>
                 <span>
                     <button onClick={reset}>Reset game</button>
