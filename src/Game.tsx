@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from 'react';
-import { main, start } from './gameplay/flow';
+import { main, start, reset } from './gameplay/flow';
 import {LogItem, Main} from './gameplay/main';
 import actions, {Action} from './gameplay/actions';
 import { Asset, AssetAction } from './gameplay/assets';
@@ -26,6 +26,9 @@ function Player(props:{main:Main}){
         <div>
             <div>
                 <span>{props.main.name}</span>
+                <span>
+                    <button onClick={reset}>Reset game</button>
+                </span>
             </div>
             <div>
                 <span>{convertDaysToAge(props.main.time)}</span>

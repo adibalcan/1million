@@ -30,6 +30,11 @@ export function stop(){
     localStorage.removeItem(Constants.STORAGE_PREFIX + "_assets");
 }
 
+export function reset(){
+    stop();
+    window.location.reload();
+}
+
 export function day() {
     if(game_status){
         main.time += 1;
