@@ -48,7 +48,7 @@ export function objectToAsset(a:any):Asset|null{
     return newAsset
 }
 
-interface Asset {
+export interface Asset {
     age: number;
     id: any;
     type:string;
@@ -86,7 +86,7 @@ class BaseAsset implements Asset{
 }
 
 
-class Job extends BaseAsset{
+export class Job extends BaseAsset{
     type = "job";
     name = "Job";
     isSellable = false;
@@ -112,7 +112,7 @@ class Job extends BaseAsset{
     }
 }
 
-class Car extends BaseAsset{
+export class Car extends BaseAsset{
     type = "car";
     name = "WV Golf"
     isSellable = true;
@@ -144,7 +144,7 @@ class Car extends BaseAsset{
     }
 }
 
-class House extends BaseAsset{
+export class House extends BaseAsset{
     type = "house";
     name = "House"
     isSellable = true;
@@ -161,7 +161,7 @@ class House extends BaseAsset{
     }
 }
 
-class Credit extends BaseAsset{
+export class Credit extends BaseAsset{
     type = "credit";
     name = "Credit"
     isSellable = false;
@@ -218,7 +218,7 @@ class Credit extends BaseAsset{
     }
 }
 
-class LotteryTicket extends BaseAsset{
+export class LotteryTicket extends BaseAsset{
     type = "lottery";
     name = "Lottery Ticket";
     isSellable= false;
@@ -237,8 +237,14 @@ class LotteryTicket extends BaseAsset{
     }
 }
 
+export class ETFSP500 extends BaseAsset{
+    type = "sp500";
+    name = "S&P500";
+    isSellable= true;
+    value = 5000 * main.inflation_factor;
 
+    yearly(): void {
+        this.value = this.value * (getRandomIntIterval(5,15) / 100);
+    }
+}
 
-
-export { Job, Car, House, Credit, LotteryTicket };
-export type { Asset };

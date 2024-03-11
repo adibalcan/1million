@@ -10,7 +10,9 @@ export type LogItem = {
 class Main{
     public name = Constants.NAME;
     public cash = Constants.CASH_START;
-    public time = Constants.AGE_IN_DAYS
+    public time = Constants.AGE_IN_DAYS;
+    public skill = 1;
+    public network = 1;
     public inflation_factor = 1;
     public assets:Asset[] = [];
     public log_history:LogItem[] = [];

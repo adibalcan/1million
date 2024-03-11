@@ -1,6 +1,6 @@
 import {main} from "./flow";
 import "./assets";
-import { Job, Car, House, Asset, LotteryTicket } from "./assets";
+import { Job, Car, House, LotteryTicket, ETFSP500 } from "./assets";
 
 
 export interface Action{
@@ -145,6 +145,24 @@ export class Donate implements Action{
     }
 }
 
+export class BuySP500 implements Action{
+    name = "Buy S&P500";
+
+    active(): boolean {
+        if(main.cash > 5000){
+            return true;
+        } else
+            return false;
+    }
+
+    action(): void {
+        let e = new ETFSP500();
+        main.pay(e.value);
+        main.assets.push(e);
+        main.log(`ETFs may be a wise investment`);
+    }
+}
+
 let actions = [new BuyLotteryTicket(), 
     new OrganizeAParty(), 
     new GoOut(),
@@ -152,5 +170,7 @@ let actions = [new BuyLotteryTicket(),
     new GetJob(), 
     new BuyCar(), 
     new Donate(),
-    new BuyHouse()];
+    new BuyHouse(),
+    new BuySP500()
+];
 export default actions;
