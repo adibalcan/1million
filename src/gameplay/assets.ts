@@ -102,7 +102,7 @@ export class Job extends BaseAsset{
     }
 
     yearly(): void {
-        this.value += this.value * 0.1;
+        this.value += this.value * Constants.ANNUAL_JOB_PAYMENT_INCREASE;
     }
 
     quit(){

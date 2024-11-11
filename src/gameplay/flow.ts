@@ -1,7 +1,7 @@
 import { Main } from "./main";
 import { GoOut } from "./actions";
 import { getRandomInt, getRandomIntIterval } from "./util";
-import { Asset, Car, Credit, House, Job, LotteryTicket, objectToAsset } from "./assets";
+import { Asset, objectToAsset } from "./assets";
 import { Constants } from "./constants";
 
 export let main:Main = createMainInstance(); // This works as a Singletone
@@ -132,7 +132,7 @@ function save(){
 function loadMain():Main|false{
     // the loading is done in 2 steps:
     // 1. loading main context in the global varaible
-    // 2. loading assets(they have references to the main clobal variable)
+    // 2. loading assets(they have references to the main global variable)
     let data = localStorage.getItem(Constants.STORAGE_PREFIX + "_main");
     if(data){
         let object = JSON.parse(data);
