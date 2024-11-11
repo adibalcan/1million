@@ -46,6 +46,9 @@ class Main{
     }
 
     remove_asset_by_id(id:any){
+        /**
+         * To avoid missing references after serialization / deserialization we associated an id to every asset
+         */
         this.assets = this.assets.filter(a => a.id !== id);
     }
 
