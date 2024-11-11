@@ -93,7 +93,7 @@ class BuyFlat implements Action{
     }
 
     action(): void {
-        let h = new House();
+        let h = new Apartment();
         main.pay(h.value);
         main.assets.push(h);
         main.log(`Congrats you have a new house`);
