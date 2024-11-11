@@ -8,7 +8,6 @@ export let main:Main = createMainInstance(); // This works as a Singletone
 loadAssets();
 
 
-export const day_time = 500; // how mouch lasts a day (in ms)
 export let day_interval:any = null;
 export let save_interval:any;
 export let game_status:boolean = true;
@@ -16,7 +15,7 @@ export let game_status:boolean = true;
 export function start() {
     if (!day_interval){
         console.log("game started");
-        day_interval = setInterval(day, day_time);
+        day_interval = setInterval(day, Constants.DAY_LASTS);
     } 
     if (!save_interval){
         save_interval = setInterval(save, 10000);
@@ -72,7 +71,7 @@ function randomAction(){
 
 function monthly_check(){
     // pay the bills (rent & food)
-    pay_rent();
+    pay_or_collect_rent();
     pay_food();
 }
 
@@ -80,18 +79,30 @@ function yearly_check(){
     inflation();
 }
 
-function pay_rent(){
+function pay_or_collect_rent(){
+    /**
+     * you pay or collect rent based on how many houses do you have
+     */
+    let rent_cost = 500 * main.inflation_factor;
+    let number_of_houses = main.how_many('house');
+
     // if you don't have a house you pay the rent
-    if(main.how_many('house') == 0){
-        let cost = 500 * main.inflation_factor;
-        let result = main.pay(cost, false);
+    if(number_of_houses == 0){
+        let result = main.pay(rent_cost, false);
         if(result){
-            main.log(`You pay the rent (${Math.round(cost)})`);
+            main.log(`You pay the rent (${Math.round(rent_cost)})`);
         } else {
-            main.log(`You don't have enought money to pay the rent (${Math.round(cost)})`);
+            main.log(`You don't have enought money to pay the rent (${Math.round(rent_cost)})`);
             main.log("GAME OVER! Please refresh to start again");
             stop();
         }
+    }
+
+    // if you have more than one house you collect the rent
+    if(number_of_houses > 1){
+        let collected_rent = rent_cost * (number_of_houses - 1);
+        main.cash += collected_rent; 
+        main.log(`You collected the rent (${Math.round(collected_rent)})`);
     }
 }
 
