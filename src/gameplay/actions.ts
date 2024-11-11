@@ -1,6 +1,6 @@
 import {main} from "./flow";
 import "./assets";
-import { Job, Car, House, LotteryTicket, ETFSP500 } from "./assets";
+import { Job, Car, House, LotteryTicket, ETFSP500, Apartment } from "./assets";
 
 
 export interface Action{
@@ -66,6 +66,26 @@ class BuyHouse implements Action{
 
     active(): boolean {
         let h = new House();
+        if(main.cash > h.value * 0.1){
+            return true;
+        } else
+            return false;
+    }
+
+    action(): void {
+        let h = new House();
+        main.pay(h.value);
+        main.assets.push(h);
+        main.log(`Congrats you have a new house`);
+    }
+}
+
+class BuyFlat implements Action{
+    name = "Buy a flat";
+
+    active(): boolean {
+        let h = new Apartment();
+        // you need to have more than 10% of value to buy with credit
         if(main.cash > h.value * 0.1){
             return true;
         } else
@@ -173,6 +193,7 @@ let actions = [new BuyLotteryTicket(),
     new BuyCar(), 
     new Donate(),
     new BuyHouse(),
+    new BuyFlat(),
     new BuySP500()
 ];
 export default actions;

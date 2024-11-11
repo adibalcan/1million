@@ -118,6 +118,7 @@ export class Car extends BaseAsset{
     isSellable = true;
     intialValue = 15000;
     value = 15000 * main.inflation_factor;
+    last_ride = 0; // time of the last ride
 
     month(){
         // depreciation
@@ -130,9 +131,14 @@ export class Car extends BaseAsset{
     }
 
     doUber(){
-        let price = getRandomIntIterval(100 * main.inflation_factor, 300 * main.inflation_factor);
-        main.cash += price;
-        main.log(`You get ${price} from the ride`);
+        if(Date.now() - this.last_ride > Constants.DAY_LASTS / Constants.UBER_RIDES_PER_DAY){
+            let price = getRandomIntIterval(100 * main.inflation_factor, 300 * main.inflation_factor);
+            main.cash += price;
+            main.log(`You get ${price} from the ride`);
+            this.last_ride = Date.now();
+        } else {
+            main.log(`You are too tierd for a ride`);
+        }
     }
 
     car_accident(){
@@ -150,6 +156,23 @@ export class House extends BaseAsset{
     isSellable = true;
     intialValue = 500000;
     value = 500000 * main.inflation_factor;
+
+    month(){
+        
+    }
+
+    yearly(){
+        // apreciation
+        this.value = Math.max(Math.round(this.value*1.1), this.intialValue*0.1); 
+    }
+}
+
+export class Apartment extends BaseAsset{
+    type = "house";
+    name = "A small flat"
+    isSellable = true;
+    intialValue = 250000;
+    value = 250000 * main.inflation_factor;
 
     month(){
         
@@ -179,7 +202,8 @@ export class Credit extends BaseAsset{
 
     month(){
         if(this.value > 0){
-            let rate = 500;
+            let rate = Math.min(this.value, Constants.CREDIT_MAX_RATE);
+            
             if(main.cash > rate){
                 main.cash -= rate;
                 this.value -= rate;
