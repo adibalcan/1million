@@ -7,3 +7,4 @@ You can play the game here: https://adibalcan.github.io/1million/build/
 
 ## Contribute 
 If you want to contribute you can fork this repo and you can make a pull request. The game is made in typescript using react.
+This game is hosted on github pages so the built file are built locally and commited to git
