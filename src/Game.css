@@ -9,18 +9,27 @@
 
 .Game{
     display:flex;
+    flex-direction: row-reverse;
 }
 
 .maincontent{
     display:inline-block;
-    width:900px;
+    max-width:900px;
     padding: 20px;
 }
 
 .statuspanel{
     display:inline-block;
-    width:300px;
+    min-width:300px;
     padding: 20px;
+}
+
+.marginzero{
+    margin:0;
+}
+
+.onlymobile{
+    display: none;
 }
 
 button{
@@ -47,4 +56,15 @@ button:hover{
 .asset .value,
 .asset .action{
     margin: 2px;
+}
+
+@media only screen and (max-width: 768px) {
+    .Game{
+        display:block;
+    }
+
+    .onlymobile{
+        display: block;
+    }
+    
 }

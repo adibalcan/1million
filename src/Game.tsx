@@ -28,7 +28,9 @@ function Player(props:{main:Main}){
     return (
         <div>
             <div className="flex-between">
-                <span>{props.main.name}</span>
+                <span>
+                    <h1 className='marginzero'>{props.main.name}</h1>
+                </span>
                 <span>
                     <span>Net Worth {props.main.compute_net_worth()}</span>
                     &nbsp; 
@@ -66,6 +68,9 @@ function Game() {
   
   return (
     <div className="Game">
+        <div className="statuspanel">
+            <Player main={m}/>
+        </div>
         <div className="maincontent">
             <div>
                 <h1>Actions</h1>
@@ -87,9 +92,7 @@ function Game() {
                 </div>)}
             </div>
         </div>
-        <div className="statuspanel">
-            <Player main={m}/>
-        </div>
+
     </div>
   );
 }
