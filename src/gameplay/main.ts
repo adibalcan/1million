@@ -76,6 +76,24 @@ class Main{
         return stats;
     }
 
+    compute_net_worth(){
+        let net_worth = this.cash;
+        for(let i=0; i < this.assets.length; i++){
+            let asset = this.assets[i]
+            
+            switch(asset.type){
+                case 'credit':
+                    net_worth -= asset.value;
+                    break;
+                case 'job':
+                    break;
+                default:
+                    net_worth += asset.value;
+            }
+        }
+        return Math.round(net_worth);
+    }
+
     how_many(asset_type:string):number{
         let stats = this.asset_stats();
 

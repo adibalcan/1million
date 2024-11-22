@@ -30,6 +30,8 @@ function Player(props:{main:Main}){
             <div className="flex-between">
                 <span>{props.main.name}</span>
                 <span>
+                    <span>Net Worth {props.main.compute_net_worth()}</span>
+                    &nbsp; 
                     <button onClick={reset}>Reset game</button>
                 </span>
             </div>
