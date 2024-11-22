@@ -191,7 +191,13 @@ export class Credit extends BaseAsset{
     value = 0;
 
     getActions(){
-        return [{name:"Pay", action:this.pay.bind(this)}];
+        let value = Math.min(this.value, this.compute_rate());
+        
+        return [
+            // {name:`Pay ${value}`, action: (value:number) => {this.pay_value.bind(this)(value)}},
+            {name:"Pay all", action:this.pay_all.bind(this)}
+        ];
+        
     }
 
     constructor(value:number=0, name:string=""){
@@ -200,32 +206,44 @@ export class Credit extends BaseAsset{
         this.name = name;
     }
 
+    compute_rate(){
+        return Math.min(this.value, Constants.CREDIT_MAX_RATE);
+    }
+
     month(){
         if(this.value > 0){
-            let rate = Math.min(this.value, Constants.CREDIT_MAX_RATE);
+            let rate = this.compute_rate();
             
+            // pay principal
             if(main.cash > rate){
-                main.cash -= rate;
-                this.value -= rate;
-                main.log(`You paid ${rate} for credit`);
+                this.pay_value(rate);
             } else {
+                this.bankrupcy();
+            }
+
+            // pay the interest rate
+            let interest = Math.round(this.value * (Constants.CREDIT_INTEREST_RATE / 100) / 12);
+            if(main.cash > interest){
+                main.pay(interest, false);
+                main.log(`You paid ${interest} as the interest rate for the credit`);
+            }else{
+                main.log(`You don't have money for interest rate (${interest})`);
                 this.bankrupcy();
             }
         }
     }
 
     yearly(): void {
-        let interest = this.value * (Constants.CREDIT_INTEREST_RATE / 100);
-        if(main.cash > interest){
-            main.pay(interest, false);
-            main.log(`You paid ${interest} as the interest rate for the credit`);
-        }else{
-            main.log(`You don't have money for interest rate (${interest})`);
-            this.bankrupcy();
-        }
+
     }
 
-    pay(){
+    pay_value(rate:number){
+        main.cash -= rate;
+        this.value -= rate;
+        main.log(`You paid ${rate} for credit`);
+    }
+
+    pay_all(){
         if(main.cash > this.value){
             main.cash -= this.value;
             this.value = 0;
