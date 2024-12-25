@@ -152,8 +152,8 @@ export class Car extends BaseAsset{
 
 
 export class Bicycle extends BaseAsset{
-    type = "car";
-    name = "Bicicle"
+    type = "bicycle";
+    name = "Bicycle"
     isSellable = true;
     intialValue = 300;
     value = 300 * main.inflation_factor;
@@ -276,16 +276,18 @@ export class Credit extends BaseAsset{
     }
 
     pay_value(rate:number){
-        main.cash -= rate;
-        this.value -= rate;
-        main.log(`You paid ${rate} for credit`);
+        if(main.cash > rate){
+            main.cash -= rate;
+            this.value -= rate;
+            main.log(`You paid ${rate} for credit`);
+        }else{
+            main.log("You don't have enough money");
+        }
     }
 
     pay_1000(){
-        let rate = Math.min(this.value, 1000)
-        main.cash -= rate;
-        this.value -= rate;
-        main.log(`You paid ${rate} for credit`);
+        let rate = Math.min(this.value, 1000);
+        this.pay_value(rate);
     }
 
     pay_all(){
