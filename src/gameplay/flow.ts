@@ -37,6 +37,7 @@ export function reset(){
 export function day() {
     if(game_status){
         main.time += 1;
+        main.relative_time += 1;
 
         if(main.time % 4 == 0){
             randomAction();

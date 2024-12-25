@@ -11,6 +11,7 @@ class Main{
     public name = Constants.NAME;
     public cash = Constants.CASH_START;
     public time = Constants.AGE_IN_DAYS;
+    public relative_time = 0;
     public skill = 1;
     public network = 1;
     public inflation_factor = 1;
