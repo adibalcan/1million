@@ -194,7 +194,7 @@ export class Credit extends BaseAsset{
         let value = Math.min(this.value, this.compute_rate());
         
         return [
-            // {name:`Pay ${value}`, action: (value:number) => {this.pay_value.bind(this)(value)}},
+            {name:`Pay 1000`, action: this.pay_1000.bind(this)},
             {name:"Pay all", action:this.pay_all.bind(this)}
         ];
         
@@ -238,6 +238,13 @@ export class Credit extends BaseAsset{
     }
 
     pay_value(rate:number){
+        main.cash -= rate;
+        this.value -= rate;
+        main.log(`You paid ${rate} for credit`);
+    }
+
+    pay_1000(){
+        let rate = Math.min(this.value, 1000)
         main.cash -= rate;
         this.value -= rate;
         main.log(`You paid ${rate} for credit`);
