@@ -150,6 +150,44 @@ export class Car extends BaseAsset{
     }
 }
 
+
+export class Bicycle extends BaseAsset{
+    type = "car";
+    name = "Bicicle"
+    isSellable = true;
+    intialValue = 300;
+    value = 300 * main.inflation_factor;
+    last_ride = 0; // time of the last ride
+
+    month(){
+        // depreciation
+        this.value = Math.max(Math.round(this.value*0.95), this.intialValue*0.1); 
+        this.stolen();
+    }
+
+    getActions(){
+        return [{name:"Deliver pizza", action:this.deliverPizza.bind(this)}]
+    }
+
+    deliverPizza(){
+        if(Date.now() - this.last_ride > Constants.DAY_LASTS / Constants.UBER_RIDES_PER_DAY){
+            let price = getRandomIntIterval(20 * main.inflation_factor, 60 * main.inflation_factor);
+            main.cash += price;
+            main.log(`You get ${price} from the delivery`);
+            this.last_ride = Date.now();
+        } else {
+            main.log(`You are too tierd for a ride`);
+        }
+    }
+
+    stolen(){
+        if(getRandomInt(100) < 30){ // 30% probability
+            main.remove_asset_by_id(this.id);
+            main.log(`Your bicycle was stolen`);
+        }
+    }
+}
+
 export class House extends BaseAsset{
     type = "house";
     name = "House"

@@ -1,6 +1,6 @@
 import {main} from "./flow";
 import "./assets";
-import { Job, Car, House, LotteryTicket, ETFSP500, Apartment } from "./assets";
+import { Job, Car, House, LotteryTicket, ETFSP500, Apartment, Bicycle } from "./assets";
 
 
 export interface Action{
@@ -14,9 +14,9 @@ class BuyCar implements Action{
 
     active(): boolean {
         let c = new Car();
-        if(main.cash > c.value * 0.1){
+        if(main.cash > c.value * 0.1 && main.relative_time / 30 > 1)
             return true;
-        } else
+        else
             return false;
     }
 
@@ -30,11 +30,32 @@ class BuyCar implements Action{
     }
 }
 
+class BuyBicycle implements Action{
+    name = "Buy a bicycle";
+
+    active(): boolean {
+        let b = new Bicycle();
+        if(main.cash > b.value * 0.1 && main.relative_time > 10)
+            return true;
+        else
+            return false;
+    }
+
+    action(): void {
+        let b = new Bicycle();
+        main.pay(b.value);
+        main.assets.push(b);
+        let message = "You bought a new bicycle";
+        main.log(message);
+        console.log(message);
+    }
+}
+
 class GetJob implements Action{
     name = "Get a job";
 
     active(): boolean {
-        if(main.how_many('job') < 2)
+        if(main.how_many('job') < 2 && main.relative_time  > 15)
             return true;
         else
             return false;
@@ -66,7 +87,7 @@ class BuyHouse implements Action{
 
     active(): boolean {
         let h = new House();
-        if(main.cash > h.value * 0.1){
+        if(main.cash > h.value * 0.1 && main.relative_time / 365 > 3){
             return true;
         } else
             return false;
@@ -86,7 +107,7 @@ class BuyFlat implements Action{
     active(): boolean {
         let h = new Apartment();
         // you need to have more than 10% of value to buy with credit
-        if(main.cash > h.value * 0.1){
+        if(main.cash > h.value * 0.1 && main.relative_time / 365 > 1){
             return true;
         } else
             return false;
@@ -104,7 +125,11 @@ class OrganizeAParty implements Action{
     name = "Organize a party";
 
     active(): boolean {
-        return true;
+        if(main.cash > 100 && main.relative_time  > 45){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     action(): void {
@@ -119,7 +144,7 @@ class GoInVacantion implements Action{
     name = "Go in a vacation";
 
     active(): boolean {
-        if(main.cash > 500){
+        if(main.cash > 500 && main.relative_time / 30 > 2){
             return true;
         } else
             return false;
@@ -136,7 +161,7 @@ export class GoOut implements Action{
     name = "Go Out";
 
     active(): boolean {
-        if(main.cash > 100){
+        if(main.cash > 100 && main.relative_time  > 15){
             return true;
         } else
             return false;
@@ -154,7 +179,7 @@ export class Donate implements Action{
     name = "Donate 50% of cash";
 
     active(): boolean {
-        if(main.cash > 10000){
+        if(main.cash > 10000 && main.relative_time / 365 > 1){
             return true;
         } else
             return false;
@@ -171,7 +196,7 @@ export class BuySP500 implements Action{
     name = "Buy S&P500";
 
     active(): boolean {
-        if(main.cash > 5000){
+        if(main.cash > 5000 && main.relative_time / 30 > 3 ){
             return true;
         } else
             return false;
@@ -187,6 +212,7 @@ export class BuySP500 implements Action{
 
 let actions = [new BuyLotteryTicket(), 
     new OrganizeAParty(), 
+    new BuyBicycle(),
     new GoOut(),
     new GoInVacantion(),
     new GetJob(), 
