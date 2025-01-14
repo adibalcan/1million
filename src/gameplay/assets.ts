@@ -137,7 +137,7 @@ export class Car extends BaseAsset{
             main.log(`You get ${price} from the ride`);
             this.last_ride = Date.now();
         } else {
-            main.log(`You are too tierd for a ride`);
+            main.log(`You are too tired for a ride`);
         }
     }
 
@@ -176,7 +176,7 @@ export class Bicycle extends BaseAsset{
             main.log(`You get ${price} from the delivery`);
             this.last_ride = Date.now();
         } else {
-            main.log(`You are too tierd for a ride`);
+            main.log(`You are too tired for a ride`);
         }
     }
 
