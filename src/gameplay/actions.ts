@@ -14,7 +14,7 @@ class BuyCar implements Action{
 
     active(): boolean {
         let c = new Car();
-        if(main.cash > c.value * 0.1 && main.relative_time / 30 > 1)
+        if(main.cash > c.value * 0.1 && main.relative_time / 30 > 2)
             return true;
         else
             return false;
@@ -107,7 +107,7 @@ class BuyFlat implements Action{
     active(): boolean {
         let h = new Apartment();
         // you need to have more than 10% of value to buy with credit
-        if(main.cash > h.value * 0.1 && main.relative_time / 365 > 1){
+        if(main.cash > h.value * 0.05 && main.relative_time / 365 > 1){
             return true;
         } else
             return false;
@@ -125,7 +125,7 @@ class OrganizeAParty implements Action{
     name = "Organize a party";
 
     active(): boolean {
-        if(main.cash > 100 && main.relative_time  > 45){
+        if(main.cash > 100 && main.relative_time / 30  > 2){
             return true;
         } else {
             return false;
@@ -144,7 +144,7 @@ class GoInVacantion implements Action{
     name = "Go in a vacation";
 
     active(): boolean {
-        if(main.cash > 500 && main.relative_time / 30 > 2){
+        if(main.cash > 1000 && main.relative_time / 30 > 3){
             return true;
         } else
             return false;

@@ -33,6 +33,9 @@ export function objectToAsset(a:any):Asset|null{
         case 'car':
             newAsset = new Car();
             break;
+        case 'bicycle':
+            newAsset = new Bicycle();
+            break;
         case 'house':
             newAsset = new House();
             break;
@@ -41,6 +44,9 @@ export function objectToAsset(a:any):Asset|null{
             break;
         case 'lottery':
             newAsset = new LotteryTicket();
+            break;
+        case 'sp500':
+            newAsset = new ETFSP500();
             break;
         default:
             console.error('Asset not supported');

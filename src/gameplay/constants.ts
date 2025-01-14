@@ -5,8 +5,8 @@ export const Constants = {
     CASH_START: 3000,
 
     // Economic environment
-    MIN_INFLATION: 5, // %
-    MAX_INFLATION: 15, // %
+    MIN_INFLATION: 3, // %
+    MAX_INFLATION: 12, // %
     
     CREDIT_INTEREST_RATE: 5, // %
     CREDIT_MAX_RATE: 500,
