@@ -1,5 +1,5 @@
 import React, { useReducer, useState } from 'react';
-import { main, start, reset } from './gameplay/flow';
+import { main, start, reset, game_status } from './gameplay/flow';
 import {LogItem, Main} from './gameplay/main';
 import actions, {Action} from './gameplay/actions';
 import { Asset, AssetAction } from './gameplay/assets';
@@ -14,11 +14,15 @@ function AssetComponent(props:{asset:Asset}){
             <span className="value" title="value">{ Math.round(props.asset.value)}</span> 
         </span>
         <span className="actions">
-            {props.asset.getActions().map((action:AssetAction, index:number) => (
-                <button className="action" key={index} onClick={action.action}>{action.name}</button>
-            ))} 
-            {props.asset.isSellable &&
-                <button className="action" onClick={(e) => main.sell_asset(props.asset)}>Sell</button>
+            {game_status &&
+            <span>
+                {props.asset.getActions().map((action:AssetAction, index:number) => (
+                    <button className="action" key={index} onClick={action.action}>{action.name}</button>
+                ))} 
+                {props.asset.isSellable &&
+                    <button className="action" onClick={(e) => main.sell_asset(props.asset)}>Sell</button>
+                }
+            </span>
             }
         </span>
     </div>)
@@ -74,14 +78,16 @@ function Game() {
         <div className="maincontent">
             <div>
                 <h1>Actions</h1>
-                <div>
-                {actions.filter((action:Action) => action.active()).map((action:Action, index:number) => (
-                    <span key={index}>
-                        <button key={index} onClick={action.action}>{action.name}</button> &nbsp;
-                    </span>
-                    )
-                )}  
-                </div>
+                {game_status &&
+                    <div>
+                    {actions.filter((action:Action) => action.active()).map((action:Action, index:number) => (
+                        <span key={index}>
+                            <button key={index} onClick={action.action}>{action.name}</button> &nbsp;
+                        </span>
+                        )
+                    )}
+                    </div>
+                }
             </div>
             <div className="feed">
                 <h1>Feed</h1>

@@ -51,15 +51,17 @@ export function day() {
         }
 
         main.assets.map((asset) => {
-            asset.age += 1;
+            if(game_status){
+                asset.age += 1;
 
-            if(asset.age % 30 == 0){
-                asset.month();
+                if(asset.age % 30 == 0){
+                    asset.month();
+                }
+
+                if(asset.age % 365 == 0){
+                    asset.yearly();
+                }
             }
-
-            if(asset.age % 365 == 0){
-                asset.yearly();
-            }            
         });
     }
 }
@@ -72,12 +74,12 @@ function randomAction(){
 
 function monthly_check(){
     // pay the bills (rent & food)
-    pay_or_collect_rent();
-    pay_food();
+    game_status && pay_or_collect_rent();
+    game_status && pay_food();
 }
 
 function yearly_check(){
-    inflation();
+    game_status && inflation();
 }
 
 function pay_or_collect_rent(){
